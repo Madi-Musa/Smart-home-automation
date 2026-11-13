@@ -10,7 +10,20 @@ public class LampAdapter implements SmartDevice {
 
     public LampAdapter(String id, String name, LegacyLamp lamp) {
         this.id = Objects.requireNonNull(id);
+
+        if (id.isBlank()) {
+            throw new IllegalArgumentException(
+                    "Device ID cannot be empty"
+            );
+        }
+
         this.name = Objects.requireNonNull(name);
+
+        if (name.isBlank()) {
+            throw new IllegalArgumentException(
+                    "Device name cannot be empty"
+            );
+        }
         this.lamp = Objects.requireNonNull(lamp);
     }
 

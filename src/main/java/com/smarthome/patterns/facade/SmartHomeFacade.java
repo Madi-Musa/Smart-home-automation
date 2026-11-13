@@ -29,7 +29,12 @@ public class SmartHomeFacade implements SmartHomeController {
         this.home = Objects.requireNonNull(home);
         this.controller = Objects.requireNonNull(controller);
 
-        if (!home.getDevices().equals(controller.getDevices())) {
+        List<SmartDevice> homeDevices = home.getDevices();
+        List<SmartDevice> controllerDevices = controller.getDevices();
+
+        if (homeDevices.size() != controllerDevices.size()
+                || homeDevices.stream().anyMatch(device ->
+                controllerDevices.stream().noneMatch(other -> other == device))) {
             throw new IllegalArgumentException(
                     "Controller must manage the same home devices"
             );

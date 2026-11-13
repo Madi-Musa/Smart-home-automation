@@ -10,6 +10,19 @@ public class Thermostat implements SmartDevice {
 
     public Thermostat(String id, String name) {
         this.id = Objects.requireNonNull(id, "id");
+
+        if (id.isBlank()) {
+            throw new IllegalArgumentException(
+                    "Device ID cannot be empty"
+            );
+        }
+
+        if (name == null || name.isBlank()) {
+            throw new IllegalArgumentException(
+                    "Device name cannot be empty"
+            );
+        }
+
         this.name = name;
         this.on = false;
         this.temperature = 22.0;

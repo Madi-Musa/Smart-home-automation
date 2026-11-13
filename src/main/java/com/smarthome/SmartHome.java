@@ -12,7 +12,13 @@ public class SmartHome {
     private final List<SmartDevice> devices;
 
     public SmartHome(String name, List<SmartDevice> devices) {
-        this.name = Objects.requireNonNull(name);
+        if (name == null || name.isBlank()) {
+            throw new IllegalArgumentException(
+                    "Home name cannot be empty"
+            );
+        }
+
+        this.name = name;
         this.devices = List.copyOf(devices);
         Set<String> ids = new HashSet<>();
 

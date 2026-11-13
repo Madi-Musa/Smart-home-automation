@@ -391,47 +391,40 @@ These dependencies are combined through composition rather than relying on inher
 
 ## 9. Module Structure
 
-The Observer and Strategy implementations and their connecting controller are located in:
-
-`src/main/java/com/smarthome/patterns/`
-
-```text
-patterns/
-├── observer/
-│   ├── DeviceObserver.java
-│   ├── DeviceEventManager.java
-│   └── ConsoleDeviceObserver.java
-├── strategy/
-│   ├── AutomationStrategy.java
-│   ├── AutomationContext.java
-│   ├── HomeModeStrategy.java
-│   └── AwayModeStrategy.java
-└── control/
-    └── DefaultSmartHomeController.java
-```
-
-Shared interfaces are located in:
+The Observer and Strategy patterns are implemented in the following project structure:
 
 ```text
 src/main/java/com/smarthome/
-├── control/
-│   └── SmartHomeController.java
-└── events/
-    └── DeviceEventPublisher.java
-```
-
-The complete project also includes:
-
-```text
-src/main/java/com/smarthome/
-├── adapter/
-├── builder/
-├── control/
 ├── device/
+│   ├── SmartDevice.java
+│   ├── SmartLight.java
+│   └── Thermostat.java
 ├── events/
-├── facade/
-├── factory/
+│   └── DeviceEventPublisher.java
 ├── patterns/
+│   ├── adapter/
+│   │   ├── LampAdapter.java
+│   │   └── LegacyLamp.java
+│   ├── builder/
+│   │   └── SmartHomeBuilder.java
+│   ├── control/
+│   │   ├── SmartHomeController.java
+│   │   └── DefaultSmartHomeController.java
+│   ├── facade/
+│   │   └── SmartHomeFacade.java
+│   ├── factory/
+│   │   ├── DeviceFactory.java
+│   │   ├── SmartLightFactory.java
+│   │   └── ThermostatFactory.java
+│   ├── observer/
+│   │   ├── DeviceObserver.java
+│   │   ├── DeviceEventManager.java
+│   │   └── ConsoleDeviceObserver.java
+│   └── strategy/
+│       ├── AutomationStrategy.java
+│       ├── AutomationContext.java
+│       ├── HomeModeStrategy.java
+│       └── AwayModeStrategy.java
 ├── Main.java
 └── SmartHome.java
 ```

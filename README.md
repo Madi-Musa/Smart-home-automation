@@ -79,15 +79,18 @@ src/
 │   └── java/
 │       └── com/
 │           └── smarthome/
-│               ├── adapter/
-│               ├── builder/
-│               ├── control/
 │               ├── device/
+│               │   ├── SmartDevice.java
+│               │   ├── SmartLight.java
+│               │   └── Thermostat.java
 │               ├── events/
-│               ├── facade/
-│               ├── factory/
+│               │   └── DeviceEventPublisher.java
 │               ├── patterns/
+│               │   ├── adapter/
+│               │   ├── builder/
 │               │   ├── control/
+│               │   ├── facade/
+│               │   ├── factory/
 │               │   ├── observer/
 │               │   └── strategy/
 │               ├── Main.java
