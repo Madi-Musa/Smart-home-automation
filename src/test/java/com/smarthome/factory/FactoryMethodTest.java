@@ -3,6 +3,9 @@ package com.smarthome.factory;
 import com.smarthome.device.SmartDevice;
 import com.smarthome.device.SmartLight;
 import com.smarthome.device.Thermostat;
+import com.smarthome.patterns.factory.DeviceFactory;
+import com.smarthome.patterns.factory.SmartLightFactory;
+import com.smarthome.patterns.factory.ThermostatFactory;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

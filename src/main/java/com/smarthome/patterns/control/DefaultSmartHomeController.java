@@ -1,7 +1,5 @@
 package com.smarthome.patterns.control;
 
-import com.smarthome.control.SmartHomeController;
-
 import com.smarthome.SmartHome;
 import com.smarthome.device.SmartDevice;
 import com.smarthome.events.DeviceEventPublisher;

@@ -1,4 +1,4 @@
-package com.smarthome.adapter;
+package com.smarthome.patterns.adapter;
 import com.smarthome.device.SmartDevice;
 
 import java.util.Objects;

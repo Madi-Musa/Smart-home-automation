@@ -1,6 +1,6 @@
 package com.smarthome.patterns.strategy;
 
-import com.smarthome.control.SmartHomeController;
+import com.smarthome.patterns.control.SmartHomeController;
 import java.util.Objects;
 
 public final class AutomationContext {

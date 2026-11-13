@@ -1,14 +1,14 @@
 package com.smarthome;
 
-import com.smarthome.adapter.LampAdapter;
-import com.smarthome.adapter.LegacyLamp;
-import com.smarthome.builder.SmartHomeBuilder;
+import com.smarthome.patterns.adapter.LampAdapter;
+import com.smarthome.patterns.adapter.LegacyLamp;
+import com.smarthome.patterns.builder.SmartHomeBuilder;
 import com.smarthome.device.SmartDevice;
 import com.smarthome.device.Thermostat;
-import com.smarthome.facade.SmartHomeFacade;
-import com.smarthome.factory.DeviceFactory;
-import com.smarthome.factory.SmartLightFactory;
-import com.smarthome.factory.ThermostatFactory;
+import com.smarthome.patterns.facade.SmartHomeFacade;
+import com.smarthome.patterns.factory.DeviceFactory;
+import com.smarthome.patterns.factory.SmartLightFactory;
+import com.smarthome.patterns.factory.ThermostatFactory;
 import com.smarthome.patterns.control.DefaultSmartHomeController;
 import com.smarthome.patterns.observer.ConsoleDeviceObserver;
 import com.smarthome.patterns.observer.DeviceEventManager;
