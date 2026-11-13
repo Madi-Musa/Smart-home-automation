@@ -1,0 +1,114 @@
+@startuml
+
+title Adapter and Facade - UML Class Diagram
+
+left to right direction
+scale 2
+
+skinparam classAttributeIconSize 0
+skinparam packageStyle rectangle
+skinparam linetype ortho
+hide empty members
+
+package "Core System" {
+
+    interface SmartDevice {
+        +getId(): String
+        +getName(): String
+        +turnOn(): void
+        +turnOff(): void
+        +isOn(): boolean
+    }
+
+    class SmartHome {
+        -name: String
+        -devices: List<SmartDevice>
+        +getName(): String
+        +getDevices(): List<SmartDevice>
+        +getDeviceById(id): SmartDevice
+    }
+
+    class Thermostat {
+        -id: String
+        -name: String
+        -on: boolean
+        -temperature: double
+        +getTemperature(): double
+        +setTemperature(value): void
+    }
+
+    interface SmartHomeController {
+        +turnOn(deviceId): void
+        +turnOff(deviceId): void
+        +getDevices(): List<SmartDevice>
+    }
+}
+
+package "Adapter Pattern" {
+
+    class LegacyLamp {
+        -powered: boolean
+        +switchOn(): void
+        +switchOff(): void
+        +hasPower(): boolean
+    }
+
+    class LampAdapter {
+        -id: String
+        -name: String
+        -lamp: LegacyLamp
+        +getId(): String
+        +getName(): String
+        +turnOn(): void
+        +turnOff(): void
+        +isOn(): boolean
+    }
+}
+
+package "Facade Pattern" {
+
+    class SmartHomeFacade {
+        -NIGHT_TEMPERATURE: double
+        -home: SmartHome
+        -controller: SmartHomeController
+        +turnOn(deviceId): void
+        +turnOff(deviceId): void
+        +getDevices(): List<SmartDevice>
+        +activateNightMode(deviceId, thermostatId): void
+    }
+}
+
+package "Shared Controller" {
+
+    class DefaultSmartHomeController {
+        -home: SmartHome
+        -publisher: DeviceEventPublisher
+        +turnOn(deviceId): void
+        +turnOff(deviceId): void
+        -setPower(deviceId, on): void
+        +getDevices(): List<SmartDevice>
+    }
+
+    interface DeviceEventPublisher {
+        +notifyDeviceChanged(device): void
+    }
+}
+
+LampAdapter ..|> SmartDevice
+Thermostat ..|> SmartDevice
+
+LampAdapter *-- LegacyLamp : wraps
+
+SmartHome "1" o-- "0..*" SmartDevice : contains
+
+SmartHomeFacade ..|> SmartHomeController
+DefaultSmartHomeController ..|> SmartHomeController
+
+SmartHomeFacade --> SmartHome : manages
+SmartHomeFacade --> SmartHomeController : delegates
+SmartHomeFacade ..> Thermostat : night mode
+
+DefaultSmartHomeController --> SmartHome
+DefaultSmartHomeController --> DeviceEventPublisher : notifies
+
+@enduml
