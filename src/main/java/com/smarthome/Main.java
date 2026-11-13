@@ -59,9 +59,19 @@ public class Main {
             );
         }
 
-        System.out.println("\n=== Adapter and Facade ===");
+        DeviceEventManager events = new DeviceEventManager();
+        ConsoleDeviceObserver dashboard = new ConsoleDeviceObserver();
 
-        SmartHomeFacade facade = new SmartHomeFacade(home);
+        events.subscribe(dashboard);
+
+        DefaultSmartHomeController controller =
+                new DefaultSmartHomeController(home, events);
+
+        SmartHomeFacade facade = new SmartHomeFacade(
+                home, controller
+        );
+
+        System.out.println("\n=== Adapter and Facade ===");
 
         facade.turnOn("LEG01");
 
@@ -88,16 +98,8 @@ public class Main {
 
         System.out.println("\n=== Observer and Strategy ===");
 
-        DeviceEventManager events = new DeviceEventManager();
-        ConsoleDeviceObserver dashboard = new ConsoleDeviceObserver();
-
-        events.subscribe(dashboard);
-
-        DefaultSmartHomeController controller =
-                new DefaultSmartHomeController(home, events);
-
         AutomationContext automation = new AutomationContext(
-                controller, new HomeModeStrategy()
+                facade, new HomeModeStrategy()
         );
 
         System.out.println("\n=== Home Mode ===");
@@ -110,7 +112,7 @@ public class Main {
         events.unsubscribe(dashboard);
 
         System.out.println("\n=== Observer Unsubscribed ===");
-        controller.turnOn("L01");
+        facade.turnOn("L01");
 
         System.out.println("\n=== Demo Completed ===");
     }
