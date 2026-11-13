@@ -1,4 +1,6 @@
-package com.smarthome.control;
+package com.smarthome.patterns.control;
+
+import com.smarthome.control.SmartHomeController;
 
 import com.smarthome.SmartHome;
 import com.smarthome.device.SmartDevice;

@@ -1,12 +1,12 @@
 package com.smarthome;
 
-import com.smarthome.control.DefaultSmartHomeController;
+import com.smarthome.patterns.control.DefaultSmartHomeController;
 import com.smarthome.device.SmartDevice;
 import com.smarthome.device.SmartLight;
 import com.smarthome.device.Thermostat;
-import com.smarthome.events.DeviceEventManager;
-import com.smarthome.events.DeviceObserver;
-import com.smarthome.strategy.*;
+import com.smarthome.patterns.observer.DeviceEventManager;
+import com.smarthome.patterns.observer.DeviceObserver;
+import com.smarthome.patterns.strategy.*;
 import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;

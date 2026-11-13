@@ -1,6 +1,7 @@
-package com.smarthome.events;
+package com.smarthome.patterns.observer;
 
 import com.smarthome.device.SmartDevice;
+import com.smarthome.events.DeviceEventPublisher;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Objects;

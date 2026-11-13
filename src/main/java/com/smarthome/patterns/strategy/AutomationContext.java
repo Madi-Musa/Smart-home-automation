@@ -1,4 +1,4 @@
-package com.smarthome.strategy;
+package com.smarthome.patterns.strategy;
 
 import com.smarthome.control.SmartHomeController;
 import java.util.Objects;

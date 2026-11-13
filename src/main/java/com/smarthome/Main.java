@@ -1,13 +1,13 @@
 package com.smarthome;
 
-import com.smarthome.control.DefaultSmartHomeController;
+import com.smarthome.patterns.control.DefaultSmartHomeController;
 import com.smarthome.device.SmartLight;
 import com.smarthome.device.Thermostat;
-import com.smarthome.events.ConsoleDeviceObserver;
-import com.smarthome.events.DeviceEventManager;
-import com.smarthome.strategy.AutomationContext;
-import com.smarthome.strategy.AwayModeStrategy;
-import com.smarthome.strategy.HomeModeStrategy;
+import com.smarthome.patterns.observer.ConsoleDeviceObserver;
+import com.smarthome.patterns.observer.DeviceEventManager;
+import com.smarthome.patterns.strategy.AutomationContext;
+import com.smarthome.patterns.strategy.AwayModeStrategy;
+import com.smarthome.patterns.strategy.HomeModeStrategy;
 import java.util.List;
 
 public class Main {

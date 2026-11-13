@@ -1,4 +1,4 @@
-package com.smarthome.events;
+package com.smarthome.patterns.observer;
 
 import com.smarthome.device.SmartDevice;
 

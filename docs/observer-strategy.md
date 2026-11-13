@@ -108,3 +108,26 @@ Strategy инкапсулирует взаимозаменяемые алгор�
 против выбора алгоритма. Полиморфизм проявляется в вызовах apply/onDeviceChanged
 через интерфейсы; инкапсуляция скрывает список подписчиков и текущую стратегию;
 композиция позволяет подставлять зависимости без наследования контроллера.
+
+## Расположение модуля
+
+Весь код двух паттернов и связывающий их контроллер собраны в
+`src/main/java/com/smarthome/patterns/`:
+
+```text
+patterns/
+├── observer/
+│   ├── DeviceObserver.java
+│   ├── DeviceEventManager.java
+│   └── ConsoleDeviceObserver.java
+├── strategy/
+│   ├── AutomationStrategy.java
+│   ├── AutomationContext.java
+│   ├── HomeModeStrategy.java
+│   └── AwayModeStrategy.java
+└── control/
+    └── DefaultSmartHomeController.java
+```
+
+Общие интерфейсы `control/SmartHomeController` и `events/DeviceEventPublisher`
+остаются на прежних местах для интеграции остальных участников команды.
