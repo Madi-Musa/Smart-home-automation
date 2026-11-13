@@ -4,6 +4,7 @@ import com.smarthome.SmartHome;
 import com.smarthome.device.SmartDevice;
 import com.smarthome.device.SmartLight;
 import com.smarthome.device.Thermostat;
+import com.smarthome.patterns.builder.SmartHomeBuilder;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

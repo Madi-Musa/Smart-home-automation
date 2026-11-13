@@ -1,4 +1,4 @@
-package com.smarthome.builder;
+package com.smarthome.patterns.builder;
 
 import com.smarthome.SmartHome;
 import com.smarthome.device.SmartDevice;

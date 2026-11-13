@@ -1,4 +1,4 @@
-package com.smarthome.control;
+package com.smarthome.patterns.control;
 
 import com.smarthome.device.SmartDevice;
 import java.util.List;

@@ -1,7 +1,7 @@
-package com.smarthome.facade;
+package com.smarthome.patterns.facade;
 
 import com.smarthome.SmartHome;
-import com.smarthome.control.SmartHomeController;
+import com.smarthome.patterns.control.SmartHomeController;
 import com.smarthome.device.SmartDevice;
 import com.smarthome.device.Thermostat;
 import com.smarthome.patterns.control.DefaultSmartHomeController;

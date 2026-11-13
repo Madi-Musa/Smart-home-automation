@@ -1,4 +1,4 @@
-package com.smarthome.adapter;
+package com.smarthome.patterns.adapter;
 public class LegacyLamp {
     private boolean powered;
 
