@@ -1,4 +1,3 @@
-
 package com.smarthome.device;
 
 public interface SmartDevice {

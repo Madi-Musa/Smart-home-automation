@@ -28,6 +28,12 @@ public class SmartHomeFacade implements SmartHomeController {
     ) {
         this.home = Objects.requireNonNull(home);
         this.controller = Objects.requireNonNull(controller);
+
+        if (!home.getDevices().equals(controller.getDevices())) {
+            throw new IllegalArgumentException(
+                    "Controller must manage the same home devices"
+            );
+        }
     }
 
     @Override

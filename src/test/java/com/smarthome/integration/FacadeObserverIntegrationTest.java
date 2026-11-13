@@ -62,4 +62,26 @@ class FacadeObserverIntegrationTest {
                 notifications
         );
     }
+
+    @Test
+    void facadeRejectsControllerForDifferentHome() {
+        SmartHome firstHome = new SmartHome(
+                "Home 1",
+                List.of(new LampAdapter("L1", "Lamp 1", new LegacyLamp()))
+        );
+
+        SmartHome secondHome = new SmartHome(
+                "Home 2",
+                List.of(new LampAdapter("L2", "Lamp 2", new LegacyLamp()))
+        );
+
+        DefaultSmartHomeController wrongController =
+                new DefaultSmartHomeController(
+                        secondHome,
+                        new DeviceEventManager()
+                );
+
+        assertThrows(IllegalArgumentException.class,
+                () -> new SmartHomeFacade(firstHome, wrongController));
+    }
 }

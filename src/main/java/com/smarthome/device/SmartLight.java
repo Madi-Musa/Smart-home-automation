@@ -1,5 +1,5 @@
-
 package com.smarthome.device;
+import java.util.Objects;
 
 public class SmartLight implements SmartDevice {
 
@@ -8,7 +8,7 @@ public class SmartLight implements SmartDevice {
     private boolean on;
 
     public SmartLight(String id, String name) {
-        this.id = id;
+        this.id = Objects.requireNonNull(id, "id");
         this.name = name;
         this.on = false;
     }

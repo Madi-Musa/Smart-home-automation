@@ -1,5 +1,5 @@
-
 package com.smarthome.device;
+import java.util.Objects;
 
 public class Thermostat implements SmartDevice {
 
@@ -9,7 +9,7 @@ public class Thermostat implements SmartDevice {
     private double temperature;
 
     public Thermostat(String id, String name) {
-        this.id = id;
+        this.id = Objects.requireNonNull(id, "id");
         this.name = name;
         this.on = false;
         this.temperature = 22.0;
@@ -47,7 +47,7 @@ public class Thermostat implements SmartDevice {
     }
 
     public void setTemperature(double temperature) {
-        if (temperature < 16 || temperature > 30) {
+        if (!Double.isFinite(temperature) || temperature < 16 || temperature > 30) {
             throw new IllegalArgumentException(
                     "Temperature must be between 16 and 30"
             );

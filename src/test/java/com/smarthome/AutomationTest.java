@@ -107,4 +107,28 @@ class AutomationTest {
         assertThrows(NullPointerException.class, () -> context.setStrategy(null));
         assertThrows(NullPointerException.class, () -> new DefaultSmartHomeController(null, events));
     }
+
+    @Test
+    void thermostatRejectsNaN() {
+        assertThrows(IllegalArgumentException.class,
+                () -> thermostat.setTemperature(Double.NaN));
+    }
+
+    @Test
+    void nullDeviceIdsAreRejected() {
+        assertThrows(NullPointerException.class,
+                () -> new SmartLight(null, "Light"));
+
+        assertThrows(NullPointerException.class,
+                () -> new Thermostat(null, "Heating"));
+    }
+
+    @Test
+    void directSmartHomeRejectsDuplicateIds() {
+        assertThrows(IllegalArgumentException.class,
+                () -> new SmartHome("Test", List.of(
+                        new SmartLight("L01", "First Light"),
+                        new SmartLight("L01", "Second Light")
+                )));
+    }
 }
