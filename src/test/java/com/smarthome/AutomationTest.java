@@ -28,7 +28,7 @@ class AutomationTest {
         context.execute();
         assertTrue(light.isOn());
         assertTrue(thermostat.isOn());
-        context.execute(); // Reapplying a mode is idempotent.
+        context.execute();
         assertEquals(2, changes.size());
         context.setStrategy(new AwayModeStrategy());
         context.execute();
@@ -72,7 +72,7 @@ class AutomationTest {
         var failure = assertThrows(IllegalStateException.class, () -> controller.turnOn("light"));
         assertEquals(1, failure.getSuppressed().length);
         assertEquals(1, calls.get());
-        assertTrue(light.isOn()); // Publication failure does not roll back the device.
+        assertTrue(light.isOn());
     }
 
     @Test

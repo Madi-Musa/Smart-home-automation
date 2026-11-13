@@ -3,7 +3,6 @@ package com.smarthome.patterns.strategy;
 import com.smarthome.control.SmartHomeController;
 import java.util.Objects;
 
-/** Holds a replaceable algorithm without knowing any concrete mode. */
 public final class AutomationContext {
     private final SmartHomeController controller;
     private AutomationStrategy strategy;

@@ -8,7 +8,6 @@ import com.smarthome.events.DeviceEventPublisher;
 import java.util.List;
 import java.util.Objects;
 
-/** Publishes only actual power changes made through this controller. */
 public final class DefaultSmartHomeController implements SmartHomeController {
     private final SmartHome home;
     private final DeviceEventPublisher publisher;

@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
-/** Synchronous Observer subject. Register observers before changing devices. */
 public final class DeviceEventManager implements DeviceEventPublisher {
     private final Set<DeviceObserver> observers = new LinkedHashSet<>();
 
@@ -22,7 +21,6 @@ public final class DeviceEventManager implements DeviceEventPublisher {
     @Override
     public void notifyDeviceChanged(SmartDevice device) {
         Objects.requireNonNull(device, "device");
-        // Snapshot permits subscribing/unsubscribing during a callback.
         RuntimeException failure = null;
         for (DeviceObserver observer : List.copyOf(observers)) {
             try {
