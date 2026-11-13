@@ -1,11 +1,14 @@
-
 package com.smarthome;
 
 import com.smarthome.adapter.LampAdapter;
 import com.smarthome.adapter.LegacyLamp;
-import com.smarthome.device.SmartLight;
+import com.smarthome.builder.SmartHomeBuilder;
+import com.smarthome.device.SmartDevice;
 import com.smarthome.device.Thermostat;
 import com.smarthome.facade.SmartHomeFacade;
+import com.smarthome.factory.DeviceFactory;
+import com.smarthome.factory.SmartLightFactory;
+import com.smarthome.factory.ThermostatFactory;
 import com.smarthome.patterns.control.DefaultSmartHomeController;
 import com.smarthome.patterns.observer.ConsoleDeviceObserver;
 import com.smarthome.patterns.observer.DeviceEventManager;
@@ -13,58 +16,75 @@ import com.smarthome.patterns.strategy.AutomationContext;
 import com.smarthome.patterns.strategy.AwayModeStrategy;
 import com.smarthome.patterns.strategy.HomeModeStrategy;
 
-import java.util.List;
-
 public class Main {
 
     public static void main(String[] args) {
 
         System.out.println("=== Smart Home Automation System ===");
 
-        String lampId = "lamp-1";
-        String lightId = "light-1";
-        String thermostatId = "thermostat-1";
+        DeviceFactory lightFactory = new SmartLightFactory();
+        DeviceFactory thermostatFactory = new ThermostatFactory();
 
-        LampAdapter lamp = new LampAdapter(
-                lampId, "Bedroom Lamp", new LegacyLamp()
+        SmartDevice livingRoomLight = lightFactory.createDevice(
+                "L01", "Living Room Light"
         );
 
-        SmartLight light = new SmartLight(
-                lightId, "Living Room Light"
+        SmartDevice bedroomLight = lightFactory.createDevice(
+                "L02", "Bedroom Light"
         );
 
-        Thermostat thermostat = new Thermostat(
-                thermostatId, "Bedroom Thermostat"
+        SmartDevice thermostat = thermostatFactory.createDevice(
+                "T01", "Kitchen Thermostat"
         );
 
-        SmartHome home = new SmartHome(
-                "My Smart Home",
-                List.of(lamp, light, thermostat)
+        LampAdapter legacyLamp = new LampAdapter(
+                "LEG01", "Legacy Bedroom Lamp", new LegacyLamp()
         );
+
+        SmartHome home = new SmartHomeBuilder()
+                .withName("My Smart Home")
+                .addDevice(livingRoomLight)
+                .addDevice(bedroomLight)
+                .addDevice(thermostat)
+                .addDevice(legacyLamp)
+                .build();
+
+        System.out.println("\n=== Factory Method and Builder ===");
+        System.out.println("Home: " + home.getName());
+        System.out.println("Total devices: " + home.getDevices().size());
+
+        for (SmartDevice device : home.getDevices()) {
+            System.out.println(
+                    device.getId() + " - " + device.getName()
+            );
+        }
 
         System.out.println("\n=== Adapter and Facade ===");
 
         SmartHomeFacade facade = new SmartHomeFacade(home);
 
-        facade.turnOn(lampId);
+        facade.turnOn("LEG01");
 
         System.out.println(
-                "Before night mode: lamp on = " + lamp.isOn()
+                "Before night mode: lamp on = " + legacyLamp.isOn()
         );
 
-        facade.activateNightMode(lampId, thermostatId);
+        facade.activateNightMode("LEG01", "T01");
 
         System.out.println(
-                "After night mode: lamp on = " + lamp.isOn()
+                "After night mode: lamp on = " + legacyLamp.isOn()
         );
 
         System.out.println(
                 "Thermostat on = " + thermostat.isOn()
         );
 
-        System.out.println(
-                "Temperature = " + thermostat.getTemperature() + "°C"
-        );
+        if (thermostat instanceof Thermostat actualThermostat) {
+            System.out.println(
+                    "Temperature = "
+                            + actualThermostat.getTemperature() + "°C"
+            );
+        }
 
         System.out.println("\n=== Observer and Strategy ===");
 
@@ -90,7 +110,7 @@ public class Main {
         events.unsubscribe(dashboard);
 
         System.out.println("\n=== Observer Unsubscribed ===");
-        controller.turnOn(lightId);
+        controller.turnOn("L01");
 
         System.out.println("\n=== Demo Completed ===");
     }
