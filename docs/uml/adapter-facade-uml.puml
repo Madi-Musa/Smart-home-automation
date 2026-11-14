@@ -10,41 +10,41 @@ skinparam packageStyle rectangle
 skinparam linetype ortho
 hide empty members
 
-package "Core System" {
+package "factory" {
 
-    interface SmartDevice {
-        +getId(): String
-        +getName(): String
-        +turnOn(): void
-        +turnOff(): void
-        +isOn(): boolean
+    package "device" {
+
+        interface SmartDevice {
+            +getId(): String
+            +getName(): String
+            +turnOn(): void
+            +turnOff(): void
+            +isOn(): boolean
+        }
+
+        class Thermostat {
+            -id: String
+            -name: String
+            -on: boolean
+            -temperature: double
+            +getTemperature(): double
+            +setTemperature(value: double): void
+        }
     }
+}
+
+package "builder" {
 
     class SmartHome {
         -name: String
         -devices: List<SmartDevice>
         +getName(): String
         +getDevices(): List<SmartDevice>
-        +getDeviceById(id): SmartDevice
-    }
-
-    class Thermostat {
-        -id: String
-        -name: String
-        -on: boolean
-        -temperature: double
-        +getTemperature(): double
-        +setTemperature(value): void
-    }
-
-    interface SmartHomeController {
-        +turnOn(deviceId): void
-        +turnOff(deviceId): void
-        +getDevices(): List<SmartDevice>
+        +getDeviceById(id: String): SmartDevice
     }
 }
 
-package "Adapter Pattern" {
+package "adapter" {
 
     class LegacyLamp {
         -powered: boolean
@@ -65,32 +65,44 @@ package "Adapter Pattern" {
     }
 }
 
-package "Facade Pattern" {
+package "facade" {
 
     class SmartHomeFacade {
         -NIGHT_TEMPERATURE: double
         -home: SmartHome
         -controller: SmartHomeController
-        +turnOn(deviceId): void
-        +turnOff(deviceId): void
+        +turnOn(deviceId: String): void
+        +turnOff(deviceId: String): void
         +getDevices(): List<SmartDevice>
-        +activateNightMode(deviceId, thermostatId): void
+        +activateNightMode(deviceId: String, thermostatId: String): void
+    }
+
+    package "control" {
+
+        interface SmartHomeController {
+            +turnOn(deviceId: String): void
+            +turnOff(deviceId: String): void
+            +getDevices(): List<SmartDevice>
+        }
+
+        class DefaultSmartHomeController {
+            -home: SmartHome
+            -publisher: DeviceEventPublisher
+            +turnOn(deviceId: String): void
+            +turnOff(deviceId: String): void
+            -setPower(deviceId: String, on: boolean): void
+            +getDevices(): List<SmartDevice>
+        }
     }
 }
 
-package "Shared Controller" {
+package "observer" {
 
-    class DefaultSmartHomeController {
-        -home: SmartHome
-        -publisher: DeviceEventPublisher
-        +turnOn(deviceId): void
-        +turnOff(deviceId): void
-        -setPower(deviceId, on): void
-        +getDevices(): List<SmartDevice>
-    }
+    package "events" {
 
-    interface DeviceEventPublisher {
-        +notifyDeviceChanged(device): void
+        interface DeviceEventPublisher {
+            +notifyDeviceChanged(device: SmartDevice): void
+        }
     }
 }
 
@@ -101,14 +113,13 @@ LampAdapter *-- LegacyLamp : wraps
 
 SmartHome "1" o-- "0..*" SmartDevice : contains
 
-SmartHomeFacade ..|> SmartHomeController
 DefaultSmartHomeController ..|> SmartHomeController
 
 SmartHomeFacade --> SmartHome : manages
 SmartHomeFacade --> SmartHomeController : delegates
 SmartHomeFacade ..> Thermostat : night mode
 
-DefaultSmartHomeController --> SmartHome
+DefaultSmartHomeController --> SmartHome : manages
 DefaultSmartHomeController --> DeviceEventPublisher : notifies
 
 @enduml

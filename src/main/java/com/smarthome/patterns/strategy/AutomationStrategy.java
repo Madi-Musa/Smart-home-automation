@@ -1,6 +1,6 @@
 package com.smarthome.patterns.strategy;
 
-import com.smarthome.patterns.control.SmartHomeController;
+import com.smarthome.patterns.facade.control.SmartHomeController;
 
 @FunctionalInterface
 public interface AutomationStrategy {

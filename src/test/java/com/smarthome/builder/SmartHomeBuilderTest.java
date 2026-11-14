@@ -1,9 +1,9 @@
 package com.smarthome.builder;
 
-import com.smarthome.SmartHome;
-import com.smarthome.device.SmartDevice;
-import com.smarthome.device.SmartLight;
-import com.smarthome.device.Thermostat;
+import com.smarthome.patterns.builder.SmartHome;
+import com.smarthome.patterns.factory.device.SmartDevice;
+import com.smarthome.patterns.factory.device.SmartLight;
+import com.smarthome.patterns.factory.device.Thermostat;
 import com.smarthome.patterns.builder.SmartHomeBuilder;
 import org.junit.jupiter.api.Test;
 

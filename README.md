@@ -73,145 +73,56 @@ The integration is demonstrated in `Main.java`.
 
 ## 5. Project Structure
 
+The Java source is organized under exactly six main design-pattern packages: `adapter`, `builder`, `facade`, `factory`, `observer`, and `strategy`. Shared supporting classes are nested under the relevant pattern package. `Main.java` is the only class directly in `com.smarthome`.
+
 ```text
 src/
 ├── main/
 │   └── java/
 │       └── com/
 │           └── smarthome/
-│               ├── device/
-│               │   ├── SmartDevice.java
-│               │   ├── SmartLight.java
-│               │   └── Thermostat.java
-│               ├── events/
-│               │   └── DeviceEventPublisher.java
-│               ├── patterns/
-│               │   ├── adapter/
-│               │   ├── builder/
-│               │   ├── control/
-│               │   ├── facade/
-│               │   ├── factory/
-│               │   ├── observer/
-│               │   └── strategy/
 │               ├── Main.java
-│               └── SmartHome.java
+│               └── patterns/
+│                   ├── adapter/
+│                   │   ├── LampAdapter.java
+│                   │   └── LegacyLamp.java
+│                   ├── builder/
+│                   │   ├── SmartHome.java
+│                   │   └── SmartHomeBuilder.java
+│                   ├── facade/
+│                   │   ├── SmartHomeFacade.java
+│                   │   └── control/
+│                   │       ├── DefaultSmartHomeController.java
+│                   │       └── SmartHomeController.java
+│                   ├── factory/
+│                   │   ├── DeviceFactory.java
+│                   │   ├── SmartLightFactory.java
+│                   │   ├── ThermostatFactory.java
+│                   │   └── device/
+│                   │       ├── SmartDevice.java
+│                   │       ├── SmartLight.java
+│                   │       └── Thermostat.java
+│                   ├── observer/
+│                   │   ├── ConsoleDeviceObserver.java
+│                   │   ├── DeviceEventManager.java
+│                   │   ├── DeviceObserver.java
+│                   │   └── events/
+│                   │       └── DeviceEventPublisher.java
+│                   └── strategy/
+│                       ├── AutomationContext.java
+│                       ├── AutomationStrategy.java
+│                       ├── AwayModeStrategy.java
+│                       └── HomeModeStrategy.java
 └── test/
     └── java/
         └── com/
             └── smarthome/
+                ├── AutomationTest.java
                 ├── builder/
+                │   └── SmartHomeBuilderTest.java
                 ├── factory/
-                ├── integration/
-                └── AutomationTest.java
+                │   └── FactoryMethodTest.java
+                └── integration/
+                    ├── AdapterFacadeIntegrationTest.java
+                    └── FacadeObserverIntegrationTest.java
 ```
-
-## 6. How to Run
-
-### Requirements
-
-- JDK 21 or later
-- Maven (3.9+ recommended)
-
-### Run Tests
-
-```sh
-mvn test
-```
-
-### Compile the Project
-
-```sh
-mvn compile
-```
-
-### Run the Application
-
-```sh
-java -cp target/classes com.smarthome.Main
-```
-
-Alternatively, open the project in IntelliJ IDEA and run `Main.java`.
-
-## 7. Application Demonstration
-
-The console demonstration includes:
-
-1. Smart device creation.
-2. Smart home configuration.
-3. Legacy lamp integration.
-4. Device control through Facade.
-5. Night Mode activation.
-6. Observer notifications.
-7. Home Mode execution.
-8. Switching to Away Mode.
-9. Observer unsubscription.
-10. Completion of the demonstration.
-
-## 8. Testing
-
-JUnit 5 is used to verify the functionality of the application.
-
-The test suite includes:
-
-- `AutomationTest`
-- `SmartHomeBuilderTest`
-- `FactoryMethodTest`
-- `AdapterFacadeIntegrationTest`
-- `FacadeObserverIntegrationTest`
-
-The tests cover design pattern behavior, device operations, object construction, event notifications, automation modes, and integration between components.
-
-Run all tests using:
-
-```sh
-mvn test
-```
-
-## 9. UML Diagrams
-
-UML diagrams are available in the `docs/uml/` directory.
-
-- `factory-builder-uml.png`
-- `adapter-facade-uml.png`
-- `observer-strategy-uml.png`
-- `smart-home-full-uml.png`
-
-The full UML diagram represents the integrated architecture of all six design patterns.
-
-Additional implementation details are available in [Observer and Strategy Documentation](docs/observer-strategy.md).
-
-## 10. Design Principles
-
-The application applies object-oriented design principles.
-
-- **SRP:** Classes have separated responsibilities.
-- **OCP:** New devices, observers, and strategies can be introduced through abstractions.
-- **LSP:** Concrete implementations follow their interface contracts.
-- **ISP:** Focused interfaces define specific responsibilities.
-- **DIP:** Components depend on abstractions rather than unnecessary concrete implementations.
-- **DRY:** Shared behavior is reused instead of duplicated.
-- **KISS:** The architecture uses straightforward Java classes and interfaces.
-
-## 11. Current Limitations
-
-- The application uses a console interface.
-- Smart devices are simulated rather than connected to physical hardware.
-- Temperature changes do not automatically generate Observer notifications.
-- Automation actions do not provide transactional rollback.
-
-## 12. Further Improvements
-
-Possible future improvements include:
-
-- Integration with real IoT devices.
-- Temperature and motion sensors.
-- Additional automation strategies.
-- A graphical user interface.
-- Asynchronous event notifications.
-- Expanded integration tests.
-
-## 13. Conclusion
-
-The Smart Home Automation project demonstrates six integrated software design patterns in a cohesive Java application.
-
-The system combines device creation, configuration, legacy device integration, centralized management, event notifications, and interchangeable automation algorithms.

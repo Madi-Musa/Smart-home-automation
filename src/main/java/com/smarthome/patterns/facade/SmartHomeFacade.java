@@ -1,10 +1,10 @@
 package com.smarthome.patterns.facade;
 
-import com.smarthome.SmartHome;
-import com.smarthome.patterns.control.SmartHomeController;
-import com.smarthome.device.SmartDevice;
-import com.smarthome.device.Thermostat;
-import com.smarthome.patterns.control.DefaultSmartHomeController;
+import com.smarthome.patterns.builder.SmartHome;
+import com.smarthome.patterns.facade.control.SmartHomeController;
+import com.smarthome.patterns.factory.device.SmartDevice;
+import com.smarthome.patterns.factory.device.Thermostat;
+import com.smarthome.patterns.facade.control.DefaultSmartHomeController;
 
 import java.util.List;
 import java.util.Objects;

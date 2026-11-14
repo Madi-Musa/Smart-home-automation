@@ -1,7 +1,7 @@
 package com.smarthome.patterns.factory;
 
-import com.smarthome.device.SmartDevice;
-import com.smarthome.device.SmartLight;
+import com.smarthome.patterns.factory.device.SmartDevice;
+import com.smarthome.patterns.factory.device.SmartLight;
 
 public class SmartLightFactory extends DeviceFactory {
 

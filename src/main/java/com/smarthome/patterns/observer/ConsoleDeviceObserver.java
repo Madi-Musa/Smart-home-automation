@@ -1,6 +1,6 @@
 package com.smarthome.patterns.observer;
 
-import com.smarthome.device.SmartDevice;
+import com.smarthome.patterns.factory.device.SmartDevice;
 
 public final class ConsoleDeviceObserver implements DeviceObserver {
     @Override

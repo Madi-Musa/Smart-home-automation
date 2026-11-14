@@ -1,11 +1,11 @@
 package com.smarthome.integration;
 
-import com.smarthome.SmartHome;
+import com.smarthome.patterns.builder.SmartHome;
 import com.smarthome.patterns.adapter.LampAdapter;
 import com.smarthome.patterns.adapter.LegacyLamp;
-import com.smarthome.device.Thermostat;
+import com.smarthome.patterns.factory.device.Thermostat;
 import com.smarthome.patterns.facade.SmartHomeFacade;
-import com.smarthome.patterns.control.DefaultSmartHomeController;
+import com.smarthome.patterns.facade.control.DefaultSmartHomeController;
 import com.smarthome.patterns.observer.DeviceEventManager;
 import org.junit.jupiter.api.Test;
 

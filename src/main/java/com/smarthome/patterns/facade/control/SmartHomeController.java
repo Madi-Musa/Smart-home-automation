@@ -1,6 +1,6 @@
-package com.smarthome.patterns.control;
+package com.smarthome.patterns.facade.control;
 
-import com.smarthome.device.SmartDevice;
+import com.smarthome.patterns.factory.device.SmartDevice;
 import java.util.List;
 
 public interface SmartHomeController {

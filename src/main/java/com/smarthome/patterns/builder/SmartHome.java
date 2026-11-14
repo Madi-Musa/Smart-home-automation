@@ -1,6 +1,6 @@
-package com.smarthome;
+package com.smarthome.patterns.builder;
 
-import com.smarthome.device.SmartDevice;
+import com.smarthome.patterns.factory.device.SmartDevice;
 import java.util.List;
 import java.util.Objects;
 import java.util.HashSet;

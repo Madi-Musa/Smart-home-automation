@@ -1,9 +1,10 @@
 package com.smarthome;
 
-import com.smarthome.patterns.control.DefaultSmartHomeController;
-import com.smarthome.device.SmartDevice;
-import com.smarthome.device.SmartLight;
-import com.smarthome.device.Thermostat;
+import com.smarthome.patterns.builder.SmartHome;
+import com.smarthome.patterns.facade.control.DefaultSmartHomeController;
+import com.smarthome.patterns.factory.device.SmartDevice;
+import com.smarthome.patterns.factory.device.SmartLight;
+import com.smarthome.patterns.factory.device.Thermostat;
 import com.smarthome.patterns.observer.DeviceEventManager;
 import com.smarthome.patterns.observer.DeviceObserver;
 import com.smarthome.patterns.strategy.*;

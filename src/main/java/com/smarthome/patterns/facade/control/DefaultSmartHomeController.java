@@ -1,8 +1,8 @@
-package com.smarthome.patterns.control;
+package com.smarthome.patterns.facade.control;
 
-import com.smarthome.SmartHome;
-import com.smarthome.device.SmartDevice;
-import com.smarthome.events.DeviceEventPublisher;
+import com.smarthome.patterns.builder.SmartHome;
+import com.smarthome.patterns.factory.device.SmartDevice;
+import com.smarthome.patterns.observer.events.DeviceEventPublisher;
 import java.util.List;
 import java.util.Objects;
 

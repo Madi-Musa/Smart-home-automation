@@ -10,100 +10,120 @@ skinparam packageStyle rectangle
 skinparam linetype ortho
 hide empty members
 
-package "Core System" {
+package "factory" {
 
-    interface SmartDevice {
-        +getId(): String
-        +getName(): String
-        +turnOn(): void
-        +turnOff(): void
-        +isOn(): boolean
+    package "device" {
+
+        interface SmartDevice {
+            +getId(): String
+            +getName(): String
+            +turnOn(): void
+            +turnOff(): void
+            +isOn(): boolean
+        }
     }
+}
+
+package "builder" {
 
     class SmartHome {
         -name: String
         -devices: List<SmartDevice>
         +getName(): String
         +getDevices(): List<SmartDevice>
-        +getDeviceById(id): SmartDevice
-    }
-
-    interface SmartHomeController {
-        +turnOn(deviceId): void
-        +turnOff(deviceId): void
-        +getDevices(): List<SmartDevice>
+        +getDeviceById(id: String): SmartDevice
     }
 }
 
-package "Observer Pattern" {
+package "facade" {
+
+    package "control" {
+
+        interface SmartHomeController {
+            +turnOn(deviceId: String): void
+            +turnOff(deviceId: String): void
+            +getDevices(): List<SmartDevice>
+        }
+
+        class DefaultSmartHomeController {
+            -home: SmartHome
+            -publisher: DeviceEventPublisher
+            +turnOn(deviceId: String): void
+            +turnOff(deviceId: String): void
+            -setPower(deviceId: String, on: boolean): void
+            +getDevices(): List<SmartDevice>
+        }
+    }
+}
+
+package "observer" {
 
     interface DeviceObserver {
-        +onDeviceChanged(device): void
-    }
-
-    interface DeviceEventPublisher {
-        +notifyDeviceChanged(device): void
+        +onDeviceChanged(device: SmartDevice): void
     }
 
     class DeviceEventManager {
         -observers: Set<DeviceObserver>
-        +subscribe(observer): void
-        +unsubscribe(observer): void
-        +notifyDeviceChanged(device): void
+        +subscribe(observer: DeviceObserver): void
+        +unsubscribe(observer: DeviceObserver): void
+        +notifyDeviceChanged(device: SmartDevice): void
     }
 
     class ConsoleDeviceObserver {
-        +onDeviceChanged(device): void
+        +onDeviceChanged(device: SmartDevice): void
+    }
+
+    package "events" {
+
+        interface DeviceEventPublisher {
+            +notifyDeviceChanged(device: SmartDevice): void
+        }
     }
 }
 
-package "Shared Controller" {
-
-    class DefaultSmartHomeController {
-        -home: SmartHome
-        -publisher: DeviceEventPublisher
-        +turnOn(deviceId): void
-        +turnOff(deviceId): void
-        -setPower(deviceId, on): void
-        +getDevices(): List<SmartDevice>
-    }
-}
-
-package "Strategy Pattern" {
+package "strategy" {
 
     interface AutomationStrategy {
-        +apply(controller): void
+        +apply(controller: SmartHomeController): void
     }
 
     class HomeModeStrategy {
-        +apply(controller): void
+        +apply(controller: SmartHomeController): void
     }
 
     class AwayModeStrategy {
-        +apply(controller): void
+        +apply(controller: SmartHomeController): void
     }
 
     class AutomationContext {
         -controller: SmartHomeController
         -strategy: AutomationStrategy
-        +setStrategy(strategy): void
+        +setStrategy(strategy: AutomationStrategy): void
         +execute(): void
     }
 }
 
+' Smart Home relationships
+
 SmartHome "1" o-- "0..*" SmartDevice : contains
 
-DeviceEventManager ..|> DeviceEventPublisher
-ConsoleDeviceObserver ..|> DeviceObserver
-
-DeviceEventManager "1" o-- "0..*" DeviceObserver : subscribers
+' Controller relationships
 
 DefaultSmartHomeController ..|> SmartHomeController
 
 DefaultSmartHomeController --> SmartHome : manages
 DefaultSmartHomeController --> DeviceEventPublisher : publishes events
 
+' Observer relationships
+
+DeviceEventManager ..|> DeviceEventPublisher
+ConsoleDeviceObserver ..|> DeviceObserver
+
+DeviceEventManager "1" o-- "0..*" DeviceObserver : subscribers
+
 DeviceEventPublisher ..> SmartDevice : reports changes
+
+' Strategy relationships
 
 HomeModeStrategy ..|> AutomationStrategy
 AwayModeStrategy ..|> AutomationStrategy

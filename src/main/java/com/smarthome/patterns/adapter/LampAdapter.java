@@ -1,5 +1,5 @@
 package com.smarthome.patterns.adapter;
-import com.smarthome.device.SmartDevice;
+import com.smarthome.patterns.factory.device.SmartDevice;
 
 import java.util.Objects;
 

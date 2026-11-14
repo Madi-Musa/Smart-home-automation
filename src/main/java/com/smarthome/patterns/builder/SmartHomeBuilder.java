@@ -1,7 +1,6 @@
 package com.smarthome.patterns.builder;
 
-import com.smarthome.SmartHome;
-import com.smarthome.device.SmartDevice;
+import com.smarthome.patterns.factory.device.SmartDevice;
 
 import java.util.ArrayList;
 import java.util.List;

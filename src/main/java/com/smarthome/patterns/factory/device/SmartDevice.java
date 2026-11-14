@@ -1,4 +1,4 @@
-package com.smarthome.device;
+package com.smarthome.patterns.factory.device;
 
 public interface SmartDevice {
 

@@ -395,38 +395,38 @@ The Observer and Strategy patterns are implemented in the following project stru
 
 ```text
 src/main/java/com/smarthome/
-├── device/
-│   ├── SmartDevice.java
-│   ├── SmartLight.java
-│   └── Thermostat.java
-├── events/
-│   └── DeviceEventPublisher.java
-├── patterns/
-│   ├── adapter/
-│   │   ├── LampAdapter.java
-│   │   └── LegacyLamp.java
-│   ├── builder/
-│   │   └── SmartHomeBuilder.java
-│   ├── control/
-│   │   ├── SmartHomeController.java
-│   │   └── DefaultSmartHomeController.java
-│   ├── facade/
-│   │   └── SmartHomeFacade.java
-│   ├── factory/
-│   │   ├── DeviceFactory.java
-│   │   ├── SmartLightFactory.java
-│   │   └── ThermostatFactory.java
-│   ├── observer/
-│   │   ├── DeviceObserver.java
-│   │   ├── DeviceEventManager.java
-│   │   └── ConsoleDeviceObserver.java
-│   └── strategy/
-│       ├── AutomationStrategy.java
-│       ├── AutomationContext.java
-│       ├── HomeModeStrategy.java
-│       └── AwayModeStrategy.java
 ├── Main.java
-└── SmartHome.java
+└── patterns/
+    ├── adapter/
+    │   ├── LampAdapter.java
+    │   └── LegacyLamp.java
+    ├── builder/
+    │   ├── SmartHome.java
+    │   └── SmartHomeBuilder.java
+    ├── facade/
+    │   ├── SmartHomeFacade.java
+    │   └── control/
+    │       ├── SmartHomeController.java
+    │       └── DefaultSmartHomeController.java
+    ├── factory/
+    │   ├── DeviceFactory.java
+    │   ├── SmartLightFactory.java
+    │   ├── ThermostatFactory.java
+    │   └── device/
+    │       ├── SmartDevice.java
+    │       ├── SmartLight.java
+    │       └── Thermostat.java
+    ├── observer/
+    │   ├── DeviceObserver.java
+    │   ├── DeviceEventManager.java
+    │   ├── ConsoleDeviceObserver.java
+    │   └── events/
+    │       └── DeviceEventPublisher.java
+    └── strategy/
+        ├── AutomationStrategy.java
+        ├── AutomationContext.java
+        ├── HomeModeStrategy.java
+        └── AwayModeStrategy.java
 ```
 
 The six implemented design patterns are integrated and demonstrated through the main application.

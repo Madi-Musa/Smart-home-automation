@@ -1,185 +1,225 @@
 @startuml
-scale 2
 
 title Smart Home Automation System - Full UML Class Diagram
 
 left to right direction
+scale 2
+
 skinparam classAttributeIconSize 0
 skinparam packageStyle rectangle
 skinparam linetype ortho
 hide empty members
 
-package "Core" {
-    interface SmartDevice {
-        + getId(): String
-        + getName(): String
-        + turnOn(): void
-        + turnOff(): void
-        + isOn(): boolean
+package "com.smarthome" {
+
+    class Main {
+        +{static} main(args: String[]): void
     }
 
-    class SmartHome {
-        - name: String
-        - devices: List<SmartDevice>
-        + getName(): String
-        + getDevices(): List<SmartDevice>
-        + getDeviceById(id): SmartDevice
-    }
+    package "patterns" {
 
-    class SmartLight {
-        - id: String
-        - name: String
-        - on: boolean
-    }
+        package "factory" {
 
-    class Thermostat {
-        - id: String
-        - name: String
-        - on: boolean
-        - temperature: double
-        + getTemperature(): double
-        + setTemperature(value): void
-    }
+            abstract class DeviceFactory {
+                +{abstract} createDevice(id: String, name: String): SmartDevice
+                +createAndTurnOn(id: String, name: String): SmartDevice
+            }
 
-    interface SmartHomeController {
-        + turnOn(deviceId): void
-        + turnOff(deviceId): void
-        + getDevices(): List<SmartDevice>
+            class SmartLightFactory
+            class ThermostatFactory
+
+            package "device" {
+
+                interface SmartDevice {
+                    +getId(): String
+                    +getName(): String
+                    +turnOn(): void
+                    +turnOff(): void
+                    +isOn(): boolean
+                }
+
+                class SmartLight {
+                    -id: String
+                    -name: String
+                    -on: boolean
+                }
+
+                class Thermostat {
+                    -id: String
+                    -name: String
+                    -on: boolean
+                    -temperature: double
+                    +getTemperature(): double
+                    +setTemperature(value: double): void
+                }
+            }
+        }
+
+        package "builder" {
+
+            class SmartHome {
+                -name: String
+                -devices: List<SmartDevice>
+                +getName(): String
+                +getDevices(): List<SmartDevice>
+                +getDeviceById(id: String): SmartDevice
+            }
+
+            class SmartHomeBuilder {
+                -name: String
+                -devices: List<SmartDevice>
+                +withName(name: String): SmartHomeBuilder
+                +addDevice(device: SmartDevice): SmartHomeBuilder
+                +build(): SmartHome
+            }
+        }
+
+        package "adapter" {
+
+            class LegacyLamp {
+                -powered: boolean
+                +switchOn(): void
+                +switchOff(): void
+                +hasPower(): boolean
+            }
+
+            class LampAdapter {
+                -id: String
+                -name: String
+                -lamp: LegacyLamp
+                +getId(): String
+                +getName(): String
+                +turnOn(): void
+                +turnOff(): void
+                +isOn(): boolean
+            }
+        }
+
+        package "facade" {
+
+            class SmartHomeFacade {
+                -home: SmartHome
+                -controller: SmartHomeController
+                -NIGHT_TEMPERATURE: double
+                +turnOn(deviceId: String): void
+                +turnOff(deviceId: String): void
+                +getDevices(): List<SmartDevice>
+                +activateNightMode(deviceId: String, thermostatId: String): void
+            }
+
+            package "control" {
+
+                interface SmartHomeController {
+                    +turnOn(deviceId: String): void
+                    +turnOff(deviceId: String): void
+                    +getDevices(): List<SmartDevice>
+                }
+
+                class DefaultSmartHomeController {
+                    -home: SmartHome
+                    -publisher: DeviceEventPublisher
+                    +turnOn(deviceId: String): void
+                    +turnOff(deviceId: String): void
+                    -setPower(deviceId: String, on: boolean): void
+                    +getDevices(): List<SmartDevice>
+                }
+            }
+        }
+
+        package "observer" {
+
+            interface DeviceObserver {
+                +onDeviceChanged(device: SmartDevice): void
+            }
+
+            class DeviceEventManager {
+                -observers: Set<DeviceObserver>
+                +subscribe(observer: DeviceObserver): void
+                +unsubscribe(observer: DeviceObserver): void
+                +notifyDeviceChanged(device: SmartDevice): void
+            }
+
+            class ConsoleDeviceObserver {
+                +onDeviceChanged(device: SmartDevice): void
+            }
+
+            package "events" {
+
+                interface DeviceEventPublisher {
+                    +notifyDeviceChanged(device: SmartDevice): void
+                }
+            }
+        }
+
+        package "strategy" {
+
+            interface AutomationStrategy {
+                +apply(controller: SmartHomeController): void
+            }
+
+            class HomeModeStrategy {
+                +apply(controller: SmartHomeController): void
+            }
+
+            class AwayModeStrategy {
+                +apply(controller: SmartHomeController): void
+            }
+
+            class AutomationContext {
+                -controller: SmartHomeController
+                -strategy: AutomationStrategy
+                +setStrategy(strategy: AutomationStrategy): void
+                +execute(): void
+            }
+        }
     }
 }
 
-package "Factory Method" {
-    abstract class DeviceFactory {
-        + {abstract} createDevice(id, name): SmartDevice
-        + createAndTurnOn(id, name): SmartDevice
-    }
-
-    class SmartLightFactory
-    class ThermostatFactory
-}
-
-package "Builder" {
-    class SmartHomeBuilder {
-        - name: String
-        - devices: List<SmartDevice>
-        + withName(name): SmartHomeBuilder
-        + addDevice(device): SmartHomeBuilder
-        + build(): SmartHome
-    }
-}
-
-package "Adapter" {
-    class LegacyLamp {
-        - powered: boolean
-        + switchOn(): void
-        + switchOff(): void
-        + hasPower(): boolean
-    }
-
-    class LampAdapter {
-        - id: String
-        - name: String
-        - lamp: LegacyLamp
-    }
-}
-
-package "Facade" {
-    class SmartHomeFacade {
-        - home: SmartHome
-        - controller: SmartHomeController
-        - NIGHT_TEMPERATURE: double
-        + turnOn(deviceId): void
-        + turnOff(deviceId): void
-        + getDevices(): List<SmartDevice>
-        + activateNightMode(deviceId, thermostatId): void
-    }
-}
-
-package "Observer" {
-    interface DeviceObserver {
-        + onDeviceChanged(device): void
-    }
-
-    interface DeviceEventPublisher {
-        + notifyDeviceChanged(device): void
-    }
-
-    class DeviceEventManager {
-        - observers: Set<DeviceObserver>
-        + subscribe(observer): void
-        + unsubscribe(observer): void
-        + notifyDeviceChanged(device): void
-    }
-
-    class ConsoleDeviceObserver {
-        + onDeviceChanged(device): void
-    }
-}
-
-package "Controller" {
-    class DefaultSmartHomeController {
-        - home: SmartHome
-        - publisher: DeviceEventPublisher
-        + turnOn(deviceId): void
-        + turnOff(deviceId): void
-        - setPower(deviceId, on): void
-        + getDevices(): List<SmartDevice>
-    }
-}
-
-package "Strategy" {
-    interface AutomationStrategy {
-        + apply(controller): void
-    }
-
-    class HomeModeStrategy {
-        + apply(controller): void
-    }
-
-    class AwayModeStrategy {
-        + apply(controller): void
-    }
-
-    class AutomationContext {
-        - controller: SmartHomeController
-        - strategy: AutomationStrategy
-        + setStrategy(strategy): void
-        + execute(): void
-    }
-}
-
-class Main {
-    + {static} main(args): void
-}
-
-SmartLight ..|> SmartDevice
-Thermostat ..|> SmartDevice
-LampAdapter ..|> SmartDevice
-
-SmartHome "1" o-- "0..*" SmartDevice : devices
+' Factory Method relationships
 
 SmartLightFactory --|> DeviceFactory
 ThermostatFactory --|> DeviceFactory
+
 DeviceFactory ..> SmartDevice : creates
+
+SmartLight ..|> SmartDevice
+Thermostat ..|> SmartDevice
+
+' Builder relationships
+
+SmartHome "1" o-- "0..*" SmartDevice : contains
 
 SmartHomeBuilder o-- SmartDevice : adds
 SmartHomeBuilder ..> SmartHome : builds
 
+' Adapter relationships
+
+LampAdapter ..|> SmartDevice
 LampAdapter *-- LegacyLamp : wraps
 
-SmartHomeFacade ..|> SmartHomeController
+' Facade relationships
+
 SmartHomeFacade --> SmartHome : manages
 SmartHomeFacade --> SmartHomeController : delegates
 SmartHomeFacade ..> Thermostat : night mode
 
+' Controller relationships
+
 DefaultSmartHomeController ..|> SmartHomeController
-DefaultSmartHomeController --> SmartHome
-DefaultSmartHomeController --> DeviceEventPublisher
+
+DefaultSmartHomeController --> SmartHome : manages
+DefaultSmartHomeController --> DeviceEventPublisher : publishes events
+
+' Observer relationships
 
 DeviceEventManager ..|> DeviceEventPublisher
-DeviceEventManager "1" o-- "0..*" DeviceObserver
 ConsoleDeviceObserver ..|> DeviceObserver
-DeviceEventPublisher ..> SmartDevice : notifies
+
+DeviceEventManager "1" o-- "0..*" DeviceObserver : subscribers
+
+DeviceEventPublisher ..> SmartDevice : reports changes
+
+' Strategy relationships
 
 HomeModeStrategy ..|> AutomationStrategy
 AwayModeStrategy ..|> AutomationStrategy
@@ -187,10 +227,14 @@ AwayModeStrategy ..|> AutomationStrategy
 AutomationContext --> AutomationStrategy : selected strategy
 AutomationContext --> SmartHomeController : controls
 
-Main ..> DeviceFactory
-Main ..> SmartHomeBuilder
-Main ..> SmartHomeFacade
-Main ..> DeviceEventManager
-Main ..> AutomationContext
+AutomationStrategy ..> SmartHomeController : applies actions
+
+' Main dependencies
+
+Main ..> DeviceFactory : uses
+Main ..> SmartHomeBuilder : uses
+Main ..> SmartHomeFacade : uses
+Main ..> DeviceEventManager : uses
+Main ..> AutomationContext : uses
 
 @enduml
